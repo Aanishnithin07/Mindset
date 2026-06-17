@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixed or Growth? — A Self-Check</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root{
+  --ink: #14180F;
+  --ink-soft: #1B2116;
+  --paper: #F3EEE0;
+  --paper-dim: rgba(243,238,224,0.62);
+  --paper-faint: rgba(243,238,224,0.32);
+  --moss: #6C8C5F;
+  --moss-bright: #9CBB87;
+  --gold: #C2924C;
+  --gold-bright: #DDB36C;
+  --line: rgba(243,238,224,0.14);
+  --line-strong: rgba(243,238,224,0.30);
+  --maxw: 740px;
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 900px 600px at 50% -10%, rgba(108,140,95,0.16), transparent 60%),
+    var(--ink);
+  color:var(--paper);
+  font-family:'Karla', sans-serif;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+button{font-family:inherit;}
+
+.wrap{
+  max-width:var(--maxw);
+  margin:0 auto;
+  padding:48px 24px 80px;
+}
+
+.eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--moss-bright);
+}
+
+.screen{display:none;}
+.screen.active{display:block; animation:rise 0.5s ease both;}
+@keyframes rise{
+  from{opacity:0; transform:translateY(10px);}
+  to{opacity:1; transform:translateY(0);}
+}
+
+/* ---------- INTRO ---------- */
+#screen-intro .headline{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-size:clamp(40px, 8vw, 68px);
+  line-height:1.04;
+  letter-spacing:-0.01em;
+  margin:18px 0 6px;
+}
+#screen-intro .headline .or{
+  display:block;
+  font-style:italic;
+  font-weight:400;
+  font-size:0.42em;
+  color:var(--paper-dim);
+  margin:6px 0;
+}
+#screen-intro .headline .growth{color:var(--moss-bright);}
+#screen-intro .headline .fixed{color:var(--gold-bright);}
+
+.lede{
+  font-size:17px;
+  line-height:1.65;
+  color:var(--paper-dim);
+  max-width:540px;
+  margin:22px 0 8px;
+}
+
+.meta-row{
+  display:flex;
+  gap:28px;
+  flex-wrap:wrap;
+  margin:28px 0 36px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+}
+.meta-row b{color:var(--paper); font-weight:500;}
+
+.btn-primary{
+  background:var(--paper);
+  color:var(--ink);
+  border:none;
+  padding:15px 26px;
+  font-size:15px;
+  font-weight:700;
+  border-radius:3px;
+  cursor:pointer;
+  font-family:'Karla', sans-serif;
+  transition:transform 0.15s ease, background 0.15s ease;
+}
+.btn-primary:hover{background:var(--moss-bright); transform:translateY(-1px);}
+.btn-primary:focus-visible{outline:2px solid var(--moss-bright); outline-offset:3px;}
+
+.cat-list{
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:10px 22px;
+  margin-top:42px;
+  padding-top:24px;
+  border-top:1px solid var(--line);
+}
+.cat-list div{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+  display:flex;
+  gap:10px;
+}
+.cat-list span.n{color:var(--gold-bright);}
+
+/* ---------- QUIZ ---------- */
+.quiz-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:34px;
+}
+.back-link{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+  background:none;
+  border:none;
+  cursor:pointer;
+  letter-spacing:0.04em;
+  padding:4px 0;
+}
+.back-link:disabled{opacity:0; cursor:default;}
+.progress-text{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+}
+.progress-track{
+  height:2px;
+  background:var(--line);
+  border-radius:2px;
+  margin-bottom:54px;
+  overflow:hidden;
+}
+.progress-fill{
+  height:100%;
+  background:var(--moss-bright);
+  transition:width 0.35s ease;
+}
+
+.q-cat{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--gold-bright);
+  margin-bottom:14px;
+}
+.q-text{
+  font-family:'Fraunces', serif;
+  font-weight:500;
+  font-size:clamp(26px, 4.6vw, 36px);
+  line-height:1.22;
+  margin:0 0 56px;
+  max-width:580px;
+}
+
+.scale-wrap{margin-bottom:8px;}
+.scale-track{
+  position:relative;
+  height:2px;
+  background:linear-gradient(90deg, var(--gold) 0%, var(--line-strong) 50%, var(--moss) 100%);
+  border-radius:2px;
+  margin:0 6px 18px;
+}
+.scale-dots{
+  display:flex;
+  justify-content:space-between;
+  margin:0 -8px;
+}
+.dot-btn{
+  width:30px; height:30px;
+  border-radius:50%;
+  border:2px solid var(--line-strong);
+  background:var(--ink-soft);
+  cursor:pointer;
+  transition:transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  position:relative;
+}
+.dot-btn:hover{border-color:var(--paper-dim);}
+.dot-btn:focus-visible{outline:2px solid var(--moss-bright); outline-offset:3px;}
+.dot-btn.active{
+  background:var(--paper);
+  border-color:var(--paper);
+  transform:scale(1.18);
+}
+.scale-labels{
+  display:flex;
+  justify-content:space-between;
+  margin-top:18px;
+  gap:16px;
+}
+.scale-labels span{
+  font-size:13px;
+  color:var(--paper-dim);
+  max-width:140px;
+  line-height:1.4;
+}
+.scale-labels span:first-child{text-align:left; color:var(--gold-bright);}
+.scale-labels span:last-child{text-align:right; color:var(--moss-bright);}
+.scale-mid{
+  text-align:center;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  color:var(--paper-faint);
+  margin-top:18px;
+  letter-spacing:0.04em;
+}
+
+/* ---------- RESULT ---------- */
+.result-eyebrow{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+  margin-bottom:10px;
+}
+.result-pct{
+  font-family:'Fraunces', serif;
+  font-weight:300;
+  font-size:clamp(64px, 14vw, 110px);
+  line-height:0.9;
+  color:var(--paper);
+}
+.result-pct sup{
+  font-size:0.32em;
+  top:-0.6em;
+  color:var(--paper-dim);
+  font-weight:400;
+}
+.result-title{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  font-style:italic;
+  font-size:clamp(24px, 4vw, 32px);
+  margin:6px 0 18px;
+}
+.result-blurb{
+  color:var(--paper-dim);
+  font-size:16px;
+  line-height:1.6;
+  max-width:520px;
+  margin-bottom:44px;
+}
+
+.ring-section{
+  display:flex;
+  flex-wrap:wrap;
+  gap:36px;
+  align-items:center;
+  margin-bottom:54px;
+  padding:32px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+}
+.ring-wrap{flex:0 0 auto; width:min(320px, 90vw);}
+.ring-wrap svg{width:100%; height:auto; display:block;}
+.legend{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  font-family:'IBM Plex Mono', monospace;
+  font-size:12px;
+  color:var(--paper-dim);
+}
+.legend-item{display:flex; align-items:center; gap:10px;}
+.swatch{width:10px; height:10px; border-radius:50%;}
+
+.breakdown{margin-bottom:48px;}
+.breakdown h3{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:11px;
+  letter-spacing:0.16em;
+  text-transform:uppercase;
+  color:var(--paper-dim);
+  margin:0 0 22px;
+}
+.cat-row{
+  padding:16px 0;
+  border-bottom:1px solid var(--line);
+}
+.cat-row:first-child{border-top:1px solid var(--line);}
+.cat-row-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  margin-bottom:9px;
+}
+.cat-row-name{
+  font-family:'Fraunces', serif;
+  font-size:18px;
+  font-weight:500;
+}
+.cat-row-score{
+  font-family:'IBM Plex Mono', monospace;
+  font-size:13px;
+  color:var(--paper-dim);
+}
+.cat-bar-track{
+  height:4px;
+  background:var(--line);
+  border-radius:2px;
+  margin-bottom:10px;
+  overflow:hidden;
+}
+.cat-bar-fill{height:100%; border-radius:2px;}
+.cat-row-note{
+  font-size:14px;
+  color:var(--paper-dim);
+  font-style:italic;
+  line-height:1.5;
+}
+
+.closing{
+  max-width:560px;
+  font-size:16px;
+  line-height:1.7;
+  color:var(--paper-dim);
+  margin-bottom:40px;
+}
+.closing strong{color:var(--paper); font-weight:600;}
+
+.btn-row{display:flex; gap:14px; flex-wrap:wrap;}
+.btn-secondary{
+  background:none;
+  color:var(--paper);
+  border:1px solid var(--line-strong);
+  padding:14px 24px;
+  font-size:14px;
+  border-radius:3px;
+  cursor:pointer;
+  font-family:'Karla', sans-serif;
+  transition:border-color 0.15s ease, background 0.15s ease;
+}
+.btn-secondary:hover{border-color:var(--paper); background:rgba(243,238,224,0.05);}
+.btn-secondary:focus-visible{outline:2px solid var(--moss-bright); outline-offset:3px;}
+
+@media (max-width:560px){
+  .cat-list{grid-template-columns:1fr;}
+  .scale-labels span{max-width:100px; font-size:12px;}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .screen.active{animation:none;}
+  *{transition:none !important;}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ===================== INTRO ===================== -->
+  <section id="screen-intro" class="screen active">
+    <div class="eyebrow">A self-check · 32 questions · 8 areas of life</div>
+    <h1 class="headline">
+      <span class="fixed">Fixed Mindset</span>
+      <span class="or">or</span>
+      <span class="growth">Growth Mindset?</span>
+    </h1>
+    <p class="lede">
+      Carol Dweck's research found that people tend to relate to difficulty, failure, effort,
+      feedback, and other people's success in one of two ways — as threats to defend against,
+      or as material to work with. Most of us are a mix, and the mix changes by area of life.
+      Answer honestly, not how you wish you'd answer, and see where you actually land.
+    </p>
+    <div class="meta-row">
+      <span><b>32</b> questions</span>
+      <span><b>8</b> areas</span>
+      <span><b>~5</b> min</span>
+      <span>No data saved or sent anywhere</span>
+    </div>
+    <button class="btn-primary" id="start-btn">Begin the self-check →</button>
+
+    <div class="cat-list">
+      <div><span class="n">01</span> Challenges</div>
+      <div><span class="n">02</span> Failure</div>
+      <div><span class="n">03</span> Effort</div>
+      <div><span class="n">04</span> Feedback</div>
+      <div><span class="n">05</span> Comparison with others</div>
+      <div><span class="n">06</span> Identity</div>
+      <div><span class="n">07</span> Learning</div>
+      <div><span class="n">08</span> Consistency</div>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ ===================== -->
+  <section id="screen-quiz" class="screen">
+    <div class="quiz-top">
+      <button class="back-link" id="back-btn">← back</button>
+      <span class="progress-text" id="progress-text">Question 1 of 32</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <div class="q-cat" id="q-cat">About challenges</div>
+    <h2 class="q-text" id="q-text">—</h2>
+
+    <div class="scale-wrap">
+      <div class="scale-track"></div>
+      <div class="scale-dots" id="scale-dots"></div>
+      <div class="scale-labels">
+        <span id="label-left">—</span>
+        <span id="label-right">—</span>
+      </div>
+      <div class="scale-mid">tap the circle closest to how you actually behave</div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULT ===================== -->
+  <section id="screen-result" class="screen">
+    <div class="result-eyebrow">Your result</div>
+    <div class="result-pct"><span id="result-pct-num">0</span><sup>% growth-leaning</sup></div>
+    <div class="result-title" id="result-title">—</div>
+    <p class="result-blurb" id="result-blurb">—</p>
+
+    <div class="ring-section">
+      <div class="ring-wrap" id="ring-wrap"></div>
+      <div class="legend">
+        <div class="legend-item"><span class="swatch" style="background:var(--moss-bright)"></span> Growth-leaning area</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--gold-bright)"></span> Fixed-leaning area</div>
+        <div class="legend-item" style="max-width:200px; color:var(--paper-faint); margin-top:6px;">
+          Each spoke is one of the 8 areas. The shape is your pattern, not a verdict.
+        </div>
+      </div>
+    </div>
+
+    <div class="breakdown">
+      <h3>Breakdown by area</h3>
+      <div id="cat-rows"></div>
+    </div>
+
+    <p class="closing">
+      Mindset isn't fixed even when it's the "fixed" kind — that's the whole premise.
+      <strong>The areas above with lower scores aren't flaws, they're the places where
+      you're still telling yourself the old story.</strong> Dweck's own research suggests
+      that simply noticing which voice is talking — "this failed" vs. "I failed" — is
+      usually the first thing that shifts.
+    </p>
+
+    <div class="btn-row">
+      <button class="btn-secondary" id="retake-btn">Retake the self-check</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+(function(){
+
+  const categories = [
+    {key:'challenges',  label:'Challenges',           eyebrow:'About challenges'},
+    {key:'failure',      label:'Failure',              eyebrow:'About failure'},
+    {key:'effort',       label:'Effort',               eyebrow:'About effort'},
+    {key:'feedback',     label:'Feedback',             eyebrow:'About feedback'},
+    {key:'comparison',   label:'Comparison',           eyebrow:'About comparison with others'},
+    {key:'identity',     label:'Identity',             eyebrow:'About identity'},
+    {key:'learning',     label:'Learning',             eyebrow:'About learning'},
+    {key:'consistency',  label:'Consistency',          eyebrow:'About consistency'},
+  ];
+
+  const questions = [
+    // CHALLENGES
+    {cat:'challenges', text:"When something looks difficult, what's my first reaction?", left:'Avoidance', right:'Excitement'},
+    {cat:'challenges', text:"Do I choose tasks that help me grow, or tasks that help me look capable?", left:'Look capable', right:'Help me grow'},
+    {cat:'challenges', text:"Do I avoid opportunities because I might fail publicly?", left:'I avoid them', right:'I take them anyway'},
+    {cat:'challenges', text:"When I enter a new field, do I feel curious or threatened?", left:'Threatened', right:'Curious'},
+
+    // FAILURE
+    {cat:'failure', text:"When I fail, what's the honest thought — \u201cthis method failed\u201d or \u201cI am a failure\u201d?", left:'I am a failure', right:'This method failed'},
+    {cat:'failure', text:"After a setback, do I analyse what went wrong, or shut down emotionally?", left:'Shut down', right:'Analyse it'},
+    {cat:'failure', text:"Do I recover from failure with action, or with excuses?", left:'Excuses', right:'Action'},
+    {cat:'failure', text:"Does failure make me want to improve, or disappear?", left:'Disappear', right:'Improve'},
+
+    // EFFORT
+    {cat:'effort', text:"Do I believe effort is the path to mastery, or proof I'm not naturally good enough?", left:"Proof I'm not good enough", right:'Path to mastery'},
+    {cat:'effort', text:"When progress is slow, do I become more patient, or more ashamed?", left:'Ashamed', right:'Patient'},
+    {cat:'effort', text:"Do I secretly admire natural talent more than disciplined hard work?", left:'Admire talent', right:'Admire discipline'},
+    {cat:'effort', text:"When something takes repeated effort, do I stay with it or quit quickly?", left:'Quit quickly', right:'Stay with it'},
+
+    // FEEDBACK
+    {cat:'feedback', text:"When someone corrects me, do I feel helped or attacked?", left:'Attacked', right:'Helped'},
+    {cat:'feedback', text:"Do I listen to feedback to improve, or mostly to defend myself?", left:'Defend myself', right:'Improve'},
+    {cat:'feedback', text:"Do I ask for feedback proactively?", left:'Rarely', right:'Often'},
+    {cat:'feedback', text:"Is there an area of life where I avoid feedback because I fear what I'll hear?", left:'Yes, I avoid it', right:"No, I'll hear it"},
+
+    // COMPARISON
+    {cat:'comparison', text:"When I see someone doing better than me, do I feel inspired or insecure?", left:'Insecure', right:'Inspired'},
+    {cat:'comparison', text:"Do I learn from people who are better than me, or silently resent them?", left:'Resent them', right:'Learn from them'},
+    {cat:'comparison', text:"Do I compare my beginning to someone else's peak?", left:'Often', right:'Rarely'},
+    {cat:'comparison', text:"Can I genuinely appreciate someone's success without feeling smaller?", left:'Hard for me', right:'Comes naturally'},
+
+    // IDENTITY
+    {cat:'identity', text:"Do I use labels like \u201cI'm just not that type of person\u201d?", left:'Often', right:'Rarely'},
+    {cat:'identity', text:"Have I permanently decided I'm bad at something without giving it real practice?", left:'Yes, more than one thing', right:'No, I keep trying'},
+    {cat:'identity', text:"Do I think intelligence, communication, or creativity are mostly fixed traits?", left:'Mostly fixed', right:'Can be developed'},
+    {cat:'identity', text:"In hard moments, do I protect my image more than my improvement?", left:'Protect my image', right:'Protect my growth'},
+
+    // LEARNING
+    {cat:'learning', text:"Do I want to prove that I'm smart, or actually become better?", left:"Prove I'm smart", right:'Actually improve'},
+    {cat:'learning', text:"Do I enjoy learning as a beginner, or only when I already look good?", left:'Only when I look good', right:'Enjoy being a beginner'},
+    {cat:'learning', text:"Can I tolerate being bad at something long enough to become good at it?", left:'Hard to tolerate', right:'I can sit with it'},
+    {cat:'learning', text:"Do I see struggle as part of growth, or as a sign to stop?", left:'A sign to stop', right:'Part of growth'},
+
+    // CONSISTENCY
+    {cat:'consistency', text:"When I say I want change, do my habits actually reflect it?", left:'Not really', right:'Mostly, yes'},
+    {cat:'consistency', text:"Do I repeat the same patterns and just call it \u201cmy nature\u201d?", left:'Often', right:'Rarely'},
+    {cat:'consistency', text:"Have I made concrete efforts to improve weak areas in my life?", left:'Not much', right:'Yes, real efforts'},
+    {cat:'consistency', text:"Do I believe people can truly change with awareness and practice?", left:'Not really', right:'Yes, with practice'},
+  ];
+
+  const catNotes = {
+    challenges: {
+      low:"Hard things tend to get a no before you've really looked at them.",
+      mid:"Difficulty makes you hesitate, but it doesn't always win.",
+      high:"Difficulty usually reads as a signal that something's worth doing."
+    },
+    failure: {
+      low:"Failure tends to land on your identity, not just your method.",
+      mid:"A setback stings, but you can usually separate it from your worth.",
+      high:"Failure teaches you — it's data, not a verdict."
+    },
+    effort: {
+      low:"If it takes this much effort, some part of you suspects you're not built for it.",
+      mid:"You'll put in the work, though slow progress still tests your patience.",
+      high:"Effort is normal — it's just what mastery looks like from the inside."
+    },
+    feedback: {
+      low:"Correction tends to feel like an attack before it feels like help.",
+      mid:"You can take feedback, it just takes a moment to drop the defensiveness.",
+      high:"Feedback helps you — you'd rather know than be comfortable."
+    },
+    comparison: {
+      low:"Someone else's progress tends to feel like a threat to where you stand.",
+      mid:"There's a flicker of insecurity, but it usually turns into motivation.",
+      high:"Other people's progress reads as information, not a threat."
+    },
+    identity: {
+      low:"Struggle in an area quietly gets translated into \u201cI'm just not that person.\u201d",
+      mid:"You label yourself sometimes, but you're catching it more often now.",
+      high:"\u201cNot good at it yet\u201d is a timeline for you, not an identity."
+    },
+    learning: {
+      low:"Looking competent matters more than the awkward beginner phase.",
+      mid:"You can tolerate being a beginner, as long as it doesn't last too long.",
+      high:"Being bad at something new doesn't bother you — it's just the price of entry."
+    },
+    consistency: {
+      low:"Patterns get filed under \u201cmy nature\u201d instead of being worked on.",
+      mid:"You've made some real changes, even if habits don't always keep pace with intentions.",
+      high:"You've made concrete changes, because you actually believe people can change."
+    }
+  };
+
+  const overallBands = [
+    {max:24, title:'Strongly fixed-leaning', blurb:"Right now, most of these situations get filtered through one question: does this make me look capable? That's exhausting to maintain, and it's also genuinely learnable to loosen."},
+    {max:44, title:'Leaning fixed, with some openings', blurb:"There's a real pull toward protecting how you look over how you grow — but it's not absolute. A few areas already show you can do this differently."},
+    {max:64, title:'A mixed, situational mindset', blurb:"You're not one thing. Some areas of your life already run on \u201cnot good at it yet,\u201d others still run on \u201cI'm just not that type of person.\u201d The breakdown below shows where each one sits."},
+    {max:84, title:'Leaning growth, with a few sore spots', blurb:"Most of this comes naturally to you now — effort, feedback, failure don't feel like identity threats. A couple of areas are still catching up."},
+    {max:101, title:'Strongly growth-leaning', blurb:"Difficulty, feedback, and other people's success mostly register as useful information rather than threats. The work now is keeping it that way under real pressure, not just in theory."},
+  ];
+
+  function bandFor(score){ return overallBands.find(b=>score<=b.max); }
+  function noteFor(score){
+    if(score<40) return 'low';
+    if(score<70) return 'mid';
+    return 'high';
+  }
+
+  // ---------------- STATE ----------------
+  let current = 0;
+  const answers = new Array(questions.length).fill(null);
+
+  const screens = {
+    intro: document.getElementById('screen-intro'),
+    quiz: document.getElementById('screen-quiz'),
+    result: document.getElementById('screen-result'),
+  };
+  function showScreen(name){
+    Object.values(screens).forEach(s=>s.classList.remove('active'));
+    screens[name].classList.add('active');
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  const qCatEl = document.getElementById('q-cat');
+  const qTextEl = document.getElementById('q-text');
+  const dotsEl = document.getElementById('scale-dots');
+  const labelLeftEl = document.getElementById('label-left');
+  const labelRightEl = document.getElementById('label-right');
+  const progressText = document.getElementById('progress-text');
+  const progressFill = document.getElementById('progress-fill');
+  const backBtn = document.getElementById('back-btn');
+
+  function renderQuestion(){
+    const q = questions[current];
+    const cat = categories.find(c=>c.key===q.cat);
+    qCatEl.textContent = cat.eyebrow;
+    qTextEl.textContent = q.text;
+    labelLeftEl.textContent = q.left;
+    labelRightEl.textContent = q.right;
+    progressText.textContent = `Question ${current+1} of ${questions.length}`;
+    progressFill.style.width = (current/questions.length*100) + '%';
+    backBtn.disabled = current===0;
+
+    dotsEl.innerHTML = '';
+    for(let v=1; v<=5; v++){
+      const b = document.createElement('button');
+      b.className = 'dot-btn' + (answers[current]===v ? ' active' : '');
+      b.setAttribute('aria-label', 'Answer ' + v + ' of 5');
+      b.addEventListener('click', ()=>selectAnswer(v));
+      dotsEl.appendChild(b);
+    }
+  }
+
+  function selectAnswer(value){
+    answers[current] = value;
+    renderQuestion();
+    setTimeout(()=>{
+      if(current < questions.length-1){
+        current++;
+        renderQuestion();
+      } else {
+        buildResults();
+        showScreen('result');
+      }
+    }, 280);
+  }
+
+  backBtn.addEventListener('click', ()=>{
+    if(current>0){ current--; renderQuestion(); }
+  });
+
+  document.getElementById('start-btn').addEventListener('click', ()=>{
+    current = 0;
+    renderQuestion();
+    showScreen('quiz');
+  });
+
+  document.getElementById('retake-btn').addEventListener('click', ()=>{
+    current = 0;
+    answers.fill(null);
+    renderQuestion();
+    showScreen('intro');
+  });
+
+  // ---------------- RESULTS ----------------
+  function scoreFor(catKey){
+    const vals = [];
+    questions.forEach((q,i)=>{ if(q.cat===catKey) vals.push(answers[i]); });
+    const sum = vals.reduce((a,b)=>a+(b||3),0);
+    const avg = sum/vals.length; // 1..5
+    return Math.round((avg-1)/4*100); // 0..100
+  }
+
+  function colorFor(score){
+    return score>=50 ? 'var(--moss-bright)' : 'var(--gold-bright)';
+  }
+
+  function polar(angleDeg, radius, cx, cy){
+    const rad = (angleDeg-90) * Math.PI/180;
+    return { x: cx + radius*Math.cos(rad), y: cy + radius*Math.sin(rad) };
+  }
+
+  function buildRing(scores){
+    const cx=160, cy=160, maxR=118, n=categories.length, step=360/n;
+    let svg = `<svg viewBox="0 0 320 340" xmlns="http://www.w3.org/2000/svg">`;
+
+    // guide rings
+    [0.25,0.5,0.75,1].forEach(f=>{
+      let pts=[];
+      for(let i=0;i<n;i++){
+        const p = polar(i*step, maxR*f, cx, cy);
+        pts.push(p.x.toFixed(1)+','+p.y.toFixed(1));
+      }
+      svg += `<polygon points="${pts.join(' ')}" fill="none" stroke="var(--line)" stroke-width="1"/>`;
+    });
+
+    // spokes
+    for(let i=0;i<n;i++){
+      const p = polar(i*step, maxR, cx, cy);
+      svg += `<line x1="${cx}" y1="${cy}" x2="${p.x.toFixed(1)}" y2="${p.y.toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
+    }
+
+    // data polygon
+    let dataPts=[];
+    for(let i=0;i<n;i++){
+      const r = (scores[i]/100)*maxR;
+      const p = polar(i*step, r, cx, cy);
+      dataPts.push(p);
+    }
+    svg += `<polygon points="${dataPts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' ')}" fill="var(--moss)" fill-opacity="0.18" stroke="var(--moss-bright)" stroke-width="1.5"/>`;
+
+    // dots
+    dataPts.forEach((p,i)=>{
+      svg += `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" fill="${colorFor(scores[i])}"/>`;
+    });
+
+    // labels
+    for(let i=0;i<n;i++){
+      const lp = polar(i*step, maxR+30, cx, cy);
+      const dx = lp.x - cx;
+      const dy = lp.y - cy;
+      let anchor = 'middle';
+      if(dx > 8) anchor = 'start';
+      else if(dx < -8) anchor = 'end';
+      let baseline = 4;
+      if(dy < -8) baseline = -2;
+      else if(dy > 8) baseline = 11;
+      svg += `<text x="${lp.x.toFixed(1)}" y="${(lp.y+baseline).toFixed(1)}" text-anchor="${anchor}" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--paper-dim)">${categories[i].label.toUpperCase()}</text>`;
+    }
+
+    svg += `</svg>`;
+    return svg;
+  }
+
+  function buildResults(){
+    const scores = categories.map(c=>scoreFor(c.key));
+    const overall = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
+    const band = bandFor(overall);
+
+    document.getElementById('result-pct-num').textContent = overall;
+    document.getElementById('result-title').textContent = band.title;
+    document.getElementById('result-blurb').textContent = band.blurb;
+    document.getElementById('ring-wrap').innerHTML = buildRing(scores);
+
+    const rowsEl = document.getElementById('cat-rows');
+    rowsEl.innerHTML = '';
+    categories.forEach((c,i)=>{
+      const score = scores[i];
+      const note = catNotes[c.key][noteFor(score)];
+      const row = document.createElement('div');
+      row.className = 'cat-row';
+      row.innerHTML = `
+        <div class="cat-row-top">
+          <span class="cat-row-name">${c.label}</span>
+          <span class="cat-row-score">${score}%</span>
+        </div>
+        <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${score}%; background:${colorFor(score)}"></div></div>
+        <div class="cat-row-note">"${note}"</div>
+      `;
+      rowsEl.appendChild(row);
+    });
+  }
+
+  renderQuestion();
+
+})();
+</script>
+
+</body>
+</html>
