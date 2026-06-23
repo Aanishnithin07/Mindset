@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Fixed or Growth? — A Self-Check</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Karla:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Tamil:wght@400;500;700&family=Noto+Serif+Tamil:wght@400;500;600&display=swap');
 
 :root{
   --ink: #14180F;
@@ -20,6 +20,9 @@
   --line: rgba(243,238,224,0.14);
   --line-strong: rgba(243,238,224,0.30);
   --maxw: 740px;
+  --serif: 'Fraunces','Noto Serif Tamil', serif;
+  --sans: 'Karla','Noto Sans Tamil', sans-serif;
+  --mono: 'IBM Plex Mono','Noto Sans Tamil', monospace;
 }
 
 *{box-sizing:border-box;}
@@ -29,21 +32,46 @@ body{
     radial-gradient(ellipse 900px 600px at 50% -10%, rgba(108,140,95,0.16), transparent 60%),
     var(--ink);
   color:var(--paper);
-  font-family:'Karla', sans-serif;
+  font-family:var(--sans);
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
 }
 a{color:inherit;}
 button{font-family:inherit;}
 
+/* Tamil mode tweaks — Tamil glyphs are a touch taller, so ease line-height */
+html[lang="ta"] body{ line-height:1.5; }
+
 .wrap{
   max-width:var(--maxw);
   margin:0 auto;
-  padding:48px 24px 80px;
+  padding:64px 24px 80px;
 }
 
+/* ---------- LANGUAGE TOGGLE ---------- */
+.lang-toggle{
+  position:fixed;
+  top:14px;
+  right:14px;
+  z-index:30;
+  font-family:var(--mono);
+  font-size:12px;
+  letter-spacing:0.04em;
+  background:rgba(243,238,224,0.07);
+  color:var(--paper);
+  border:1px solid var(--line-strong);
+  padding:8px 15px;
+  border-radius:999px;
+  cursor:pointer;
+  -webkit-backdrop-filter:blur(6px);
+  backdrop-filter:blur(6px);
+  transition:border-color 0.15s ease, background 0.15s ease;
+}
+.lang-toggle:hover{border-color:var(--paper); background:rgba(243,238,224,0.12);}
+.lang-toggle:focus-visible{outline:2px solid var(--moss-bright); outline-offset:3px;}
+
 .eyebrow{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:11px;
   letter-spacing:0.16em;
   text-transform:uppercase;
@@ -59,7 +87,7 @@ button{font-family:inherit;}
 
 /* ---------- INTRO ---------- */
 #screen-intro .headline{
-  font-family:'Fraunces', serif;
+  font-family:var(--serif);
   font-weight:600;
   font-size:clamp(40px, 8vw, 68px);
   line-height:1.04;
@@ -90,7 +118,7 @@ button{font-family:inherit;}
   gap:28px;
   flex-wrap:wrap;
   margin:28px 0 36px;
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:12px;
   color:var(--paper-dim);
 }
@@ -105,7 +133,7 @@ button{font-family:inherit;}
   font-weight:700;
   border-radius:3px;
   cursor:pointer;
-  font-family:'Karla', sans-serif;
+  font-family:var(--sans);
   transition:transform 0.15s ease, background 0.15s ease;
 }
 .btn-primary:hover{background:var(--moss-bright); transform:translateY(-1px);}
@@ -120,7 +148,7 @@ button{font-family:inherit;}
   border-top:1px solid var(--line);
 }
 .cat-list div{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:12px;
   color:var(--paper-dim);
   display:flex;
@@ -136,7 +164,7 @@ button{font-family:inherit;}
   margin-bottom:34px;
 }
 .back-link{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:12px;
   color:var(--paper-dim);
   background:none;
@@ -147,7 +175,7 @@ button{font-family:inherit;}
 }
 .back-link:disabled{opacity:0; cursor:default;}
 .progress-text{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:12px;
   color:var(--paper-dim);
 }
@@ -165,7 +193,7 @@ button{font-family:inherit;}
 }
 
 .q-cat{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:11px;
   letter-spacing:0.18em;
   text-transform:uppercase;
@@ -173,7 +201,7 @@ button{font-family:inherit;}
   margin-bottom:14px;
 }
 .q-text{
-  font-family:'Fraunces', serif;
+  font-family:var(--serif);
   font-weight:500;
   font-size:clamp(26px, 4.6vw, 36px);
   line-height:1.22;
@@ -226,7 +254,7 @@ button{font-family:inherit;}
 .scale-labels span:last-child{text-align:right; color:var(--moss-bright);}
 .scale-mid{
   text-align:center;
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:11px;
   color:var(--paper-faint);
   margin-top:18px;
@@ -235,7 +263,7 @@ button{font-family:inherit;}
 
 /* ---------- RESULT ---------- */
 .result-eyebrow{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:11px;
   letter-spacing:0.16em;
   text-transform:uppercase;
@@ -243,7 +271,7 @@ button{font-family:inherit;}
   margin-bottom:10px;
 }
 .result-pct{
-  font-family:'Fraunces', serif;
+  font-family:var(--serif);
   font-weight:300;
   font-size:clamp(64px, 14vw, 110px);
   line-height:0.9;
@@ -256,7 +284,7 @@ button{font-family:inherit;}
   font-weight:400;
 }
 .result-title{
-  font-family:'Fraunces', serif;
+  font-family:var(--serif);
   font-weight:600;
   font-style:italic;
   font-size:clamp(24px, 4vw, 32px);
@@ -286,16 +314,16 @@ button{font-family:inherit;}
   display:flex;
   flex-direction:column;
   gap:10px;
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:12px;
   color:var(--paper-dim);
 }
 .legend-item{display:flex; align-items:center; gap:10px;}
-.swatch{width:10px; height:10px; border-radius:50%;}
+.swatch{width:10px; height:10px; border-radius:50%; flex:0 0 auto;}
 
 .breakdown{margin-bottom:48px;}
 .breakdown h3{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:11px;
   letter-spacing:0.16em;
   text-transform:uppercase;
@@ -312,16 +340,18 @@ button{font-family:inherit;}
   justify-content:space-between;
   align-items:baseline;
   margin-bottom:9px;
+  gap:14px;
 }
 .cat-row-name{
-  font-family:'Fraunces', serif;
+  font-family:var(--serif);
   font-size:18px;
   font-weight:500;
 }
 .cat-row-score{
-  font-family:'IBM Plex Mono', monospace;
+  font-family:var(--mono);
   font-size:13px;
   color:var(--paper-dim);
+  flex:0 0 auto;
 }
 .cat-bar-track{
   height:4px;
@@ -356,15 +386,23 @@ button{font-family:inherit;}
   font-size:14px;
   border-radius:3px;
   cursor:pointer;
-  font-family:'Karla', sans-serif;
+  font-family:var(--sans);
   transition:border-color 0.15s ease, background 0.15s ease;
 }
 .btn-secondary:hover{border-color:var(--paper); background:rgba(243,238,224,0.05);}
 .btn-secondary:focus-visible{outline:2px solid var(--moss-bright); outline-offset:3px;}
 
 @media (max-width:560px){
+  .wrap{padding:60px 18px 64px;}
   .cat-list{grid-template-columns:1fr;}
-  .scale-labels span{max-width:100px; font-size:12px;}
+  .scale-labels span{max-width:42%; font-size:12px;}
+  .meta-row{gap:16px 22px;}
+  .ring-section{gap:24px;}
+  .lang-toggle{top:10px; right:10px; padding:7px 13px;}
+}
+
+@media (max-width:360px){
+  .dot-btn{width:26px; height:26px;}
 }
 
 @media (prefers-reduced-motion: reduce){
@@ -375,40 +413,23 @@ button{font-family:inherit;}
 </head>
 <body>
 
+<button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language">தமிழ்</button>
+
 <div class="wrap">
 
   <!-- ===================== INTRO ===================== -->
   <section id="screen-intro" class="screen active">
-    <div class="eyebrow">A self-check · 32 questions · 8 areas of life</div>
+    <div class="eyebrow" id="intro-eyebrow">A self-check · 32 questions · 8 areas of life</div>
     <h1 class="headline">
-      <span class="fixed">Fixed Mindset</span>
-      <span class="or">or</span>
-      <span class="growth">Growth Mindset?</span>
+      <span class="fixed" id="hl-fixed">Fixed Mindset</span>
+      <span class="or" id="hl-or">or</span>
+      <span class="growth" id="hl-growth">Growth Mindset?</span>
     </h1>
-    <p class="lede">
-      Carol Dweck's research found that people tend to relate to difficulty, failure, effort,
-      feedback, and other people's success in one of two ways — as threats to defend against,
-      or as material to work with. Most of us are a mix, and the mix changes by area of life.
-      Answer honestly, not how you wish you'd answer, and see where you actually land.
-    </p>
-    <div class="meta-row">
-      <span><b>32</b> questions</span>
-      <span><b>8</b> areas</span>
-      <span><b>~5</b> min</span>
-      <span>No data saved or sent anywhere</span>
-    </div>
+    <p class="lede" id="intro-lede">—</p>
+    <div class="meta-row" id="meta-row"></div>
     <button class="btn-primary" id="start-btn">Begin the self-check →</button>
 
-    <div class="cat-list">
-      <div><span class="n">01</span> Challenges</div>
-      <div><span class="n">02</span> Failure</div>
-      <div><span class="n">03</span> Effort</div>
-      <div><span class="n">04</span> Feedback</div>
-      <div><span class="n">05</span> Comparison with others</div>
-      <div><span class="n">06</span> Identity</div>
-      <div><span class="n">07</span> Learning</div>
-      <div><span class="n">08</span> Consistency</div>
-    </div>
+    <div class="cat-list" id="cat-list"></div>
   </section>
 
   <!-- ===================== QUIZ ===================== -->
@@ -429,40 +450,34 @@ button{font-family:inherit;}
         <span id="label-left">—</span>
         <span id="label-right">—</span>
       </div>
-      <div class="scale-mid">tap the circle closest to how you actually behave</div>
+      <div class="scale-mid" id="scale-mid">tap the circle closest to how you actually behave</div>
     </div>
   </section>
 
   <!-- ===================== RESULT ===================== -->
   <section id="screen-result" class="screen">
-    <div class="result-eyebrow">Your result</div>
-    <div class="result-pct"><span id="result-pct-num">0</span><sup>% growth-leaning</sup></div>
+    <div class="result-eyebrow" id="result-eyebrow">Your result</div>
+    <div class="result-pct"><span id="result-pct-num">0</span><sup id="result-pct-suffix">% growth-leaning</sup></div>
     <div class="result-title" id="result-title">—</div>
     <p class="result-blurb" id="result-blurb">—</p>
 
     <div class="ring-section">
       <div class="ring-wrap" id="ring-wrap"></div>
       <div class="legend">
-        <div class="legend-item"><span class="swatch" style="background:var(--moss-bright)"></span> Growth-leaning area</div>
-        <div class="legend-item"><span class="swatch" style="background:var(--gold-bright)"></span> Fixed-leaning area</div>
+        <div class="legend-item"><span class="swatch" style="background:var(--moss-bright)"></span> <span id="legend-growth">Growth-leaning area</span></div>
+        <div class="legend-item"><span class="swatch" style="background:var(--gold-bright)"></span> <span id="legend-fixed">Fixed-leaning area</span></div>
         <div class="legend-item" style="max-width:200px; color:var(--paper-faint); margin-top:6px;">
-          Each spoke is one of the 8 areas. The shape is your pattern, not a verdict.
+          <span id="legend-note">Each spoke is one of the 8 areas. The shape is your pattern, not a verdict.</span>
         </div>
       </div>
     </div>
 
     <div class="breakdown">
-      <h3>Breakdown by area</h3>
+      <h3 id="breakdown-h">Breakdown by area</h3>
       <div id="cat-rows"></div>
     </div>
 
-    <p class="closing">
-      Mindset isn't fixed even when it's the "fixed" kind — that's the whole premise.
-      <strong>The areas above with lower scores aren't flaws, they're the places where
-      you're still telling yourself the old story.</strong> Dweck's own research suggests
-      that simply noticing which voice is talking — "this failed" vs. "I failed" — is
-      usually the first thing that shifts.
-    </p>
+    <p class="closing" id="closing">—</p>
 
     <div class="btn-row">
       <button class="btn-secondary" id="retake-btn">Retake the self-check</button>
@@ -474,128 +489,267 @@ button{font-family:inherit;}
 <script>
 (function(){
 
-  const categories = [
-    {key:'challenges',  label:'Challenges',           eyebrow:'About challenges'},
-    {key:'failure',      label:'Failure',              eyebrow:'About failure'},
-    {key:'effort',       label:'Effort',               eyebrow:'About effort'},
-    {key:'feedback',     label:'Feedback',             eyebrow:'About feedback'},
-    {key:'comparison',   label:'Comparison',           eyebrow:'About comparison with others'},
-    {key:'identity',     label:'Identity',             eyebrow:'About identity'},
-    {key:'learning',     label:'Learning',             eyebrow:'About learning'},
-    {key:'consistency',  label:'Consistency',          eyebrow:'About consistency'},
-  ];
+  // Shared, language-independent structure
+  const CAT_KEYS = ['challenges','failure','effort','feedback','comparison','identity','learning','consistency'];
+  const BAND_MAX = [24, 44, 64, 84, 101];
+  // category key for each of the 32 questions (4 per category, in CAT_KEYS order)
+  const QCATS = [];
+  CAT_KEYS.forEach(k=>{ for(let i=0;i<4;i++) QCATS.push(k); });
 
-  const questions = [
-    // CHALLENGES
-    {cat:'challenges', text:"When something looks difficult, what's my first reaction?", left:'Avoidance', right:'Excitement'},
-    {cat:'challenges', text:"Do I choose tasks that help me grow, or tasks that help me look capable?", left:'Look capable', right:'Help me grow'},
-    {cat:'challenges', text:"Do I avoid opportunities because I might fail publicly?", left:'I avoid them', right:'I take them anyway'},
-    {cat:'challenges', text:"When I enter a new field, do I feel curious or threatened?", left:'Threatened', right:'Curious'},
-
-    // FAILURE
-    {cat:'failure', text:"When I fail, what's the honest thought — \u201cthis method failed\u201d or \u201cI am a failure\u201d?", left:'I am a failure', right:'This method failed'},
-    {cat:'failure', text:"After a setback, do I analyse what went wrong, or shut down emotionally?", left:'Shut down', right:'Analyse it'},
-    {cat:'failure', text:"Do I recover from failure with action, or with excuses?", left:'Excuses', right:'Action'},
-    {cat:'failure', text:"Does failure make me want to improve, or disappear?", left:'Disappear', right:'Improve'},
-
-    // EFFORT
-    {cat:'effort', text:"Do I believe effort is the path to mastery, or proof I'm not naturally good enough?", left:"Proof I'm not good enough", right:'Path to mastery'},
-    {cat:'effort', text:"When progress is slow, do I become more patient, or more ashamed?", left:'Ashamed', right:'Patient'},
-    {cat:'effort', text:"Do I secretly admire natural talent more than disciplined hard work?", left:'Admire talent', right:'Admire discipline'},
-    {cat:'effort', text:"When something takes repeated effort, do I stay with it or quit quickly?", left:'Quit quickly', right:'Stay with it'},
-
-    // FEEDBACK
-    {cat:'feedback', text:"When someone corrects me, do I feel helped or attacked?", left:'Attacked', right:'Helped'},
-    {cat:'feedback', text:"Do I listen to feedback to improve, or mostly to defend myself?", left:'Defend myself', right:'Improve'},
-    {cat:'feedback', text:"Do I ask for feedback proactively?", left:'Rarely', right:'Often'},
-    {cat:'feedback', text:"Is there an area of life where I avoid feedback because I fear what I'll hear?", left:'Yes, I avoid it', right:"No, I'll hear it"},
-
-    // COMPARISON
-    {cat:'comparison', text:"When I see someone doing better than me, do I feel inspired or insecure?", left:'Insecure', right:'Inspired'},
-    {cat:'comparison', text:"Do I learn from people who are better than me, or silently resent them?", left:'Resent them', right:'Learn from them'},
-    {cat:'comparison', text:"Do I compare my beginning to someone else's peak?", left:'Often', right:'Rarely'},
-    {cat:'comparison', text:"Can I genuinely appreciate someone's success without feeling smaller?", left:'Hard for me', right:'Comes naturally'},
-
-    // IDENTITY
-    {cat:'identity', text:"Do I use labels like \u201cI'm just not that type of person\u201d?", left:'Often', right:'Rarely'},
-    {cat:'identity', text:"Have I permanently decided I'm bad at something without giving it real practice?", left:'Yes, more than one thing', right:'No, I keep trying'},
-    {cat:'identity', text:"Do I think intelligence, communication, or creativity are mostly fixed traits?", left:'Mostly fixed', right:'Can be developed'},
-    {cat:'identity', text:"In hard moments, do I protect my image more than my improvement?", left:'Protect my image', right:'Protect my growth'},
-
-    // LEARNING
-    {cat:'learning', text:"Do I want to prove that I'm smart, or actually become better?", left:"Prove I'm smart", right:'Actually improve'},
-    {cat:'learning', text:"Do I enjoy learning as a beginner, or only when I already look good?", left:'Only when I look good', right:'Enjoy being a beginner'},
-    {cat:'learning', text:"Can I tolerate being bad at something long enough to become good at it?", left:'Hard to tolerate', right:'I can sit with it'},
-    {cat:'learning', text:"Do I see struggle as part of growth, or as a sign to stop?", left:'A sign to stop', right:'Part of growth'},
-
-    // CONSISTENCY
-    {cat:'consistency', text:"When I say I want change, do my habits actually reflect it?", left:'Not really', right:'Mostly, yes'},
-    {cat:'consistency', text:"Do I repeat the same patterns and just call it \u201cmy nature\u201d?", left:'Often', right:'Rarely'},
-    {cat:'consistency', text:"Have I made concrete efforts to improve weak areas in my life?", left:'Not much', right:'Yes, real efforts'},
-    {cat:'consistency', text:"Do I believe people can truly change with awareness and practice?", left:'Not really', right:'Yes, with practice'},
-  ];
-
-  const catNotes = {
-    challenges: {
-      low:"Hard things tend to get a no before you've really looked at them.",
-      mid:"Difficulty makes you hesitate, but it doesn't always win.",
-      high:"Difficulty usually reads as a signal that something's worth doing."
+  // ---------------- TRANSLATIONS ----------------
+  const I18N = {
+    en: {
+      title: "Fixed or Growth? — A Self-Check",
+      eyebrow: "A self-check · 32 questions · 8 areas of life",
+      hl: { fixed:"Fixed Mindset", or:"or", growth:"Growth Mindset?" },
+      lede: "Carol Dweck's research found that people tend to relate to difficulty, failure, effort, feedback, and other people's success in one of two ways — as threats to defend against, or as material to work with. Most of us are a mix, and the mix changes by area of life. Answer honestly, not how you wish you'd answer, and see where you actually land.",
+      meta: ["<b>32</b> questions", "<b>8</b> areas", "<b>~5</b> min", "No data saved or sent anywhere"],
+      start: "Begin the self-check →",
+      catlist: ["Challenges","Failure","Effort","Feedback","Comparison with others","Identity","Learning","Consistency"],
+      back: "← back",
+      progress: "Question {c} of {t}",
+      scaleMid: "tap the circle closest to how you actually behave",
+      resultEyebrow: "Your result",
+      pctSuffix: "% growth-leaning",
+      legendGrowth: "Growth-leaning area",
+      legendFixed: "Fixed-leaning area",
+      legendNote: "Each spoke is one of the 8 areas. The shape is your pattern, not a verdict.",
+      breakdown: "Breakdown by area",
+      closing: "Mindset isn't fixed even when it's the “fixed” kind — that's the whole premise. <strong>The areas above with lower scores aren't flaws, they're the places where you're still telling yourself the old story.</strong> Dweck's own research suggests that simply noticing which voice is talking — “this failed” vs. “I failed” — is usually the first thing that shifts.",
+      retake: "Retake the self-check",
+      toggle: "தமிழ்",
+      categories: [
+        { label:"Challenges",  eyebrow:"About challenges" },
+        { label:"Failure",     eyebrow:"About failure" },
+        { label:"Effort",      eyebrow:"About effort" },
+        { label:"Feedback",    eyebrow:"About feedback" },
+        { label:"Comparison",  eyebrow:"About comparison with others" },
+        { label:"Identity",    eyebrow:"About identity" },
+        { label:"Learning",    eyebrow:"About learning" },
+        { label:"Consistency", eyebrow:"About consistency" },
+      ],
+      questions: [
+        // CHALLENGES
+        { text:"When something looks difficult, what's my first reaction?", left:"Avoidance", right:"Excitement" },
+        { text:"Do I choose tasks that help me grow, or tasks that help me look capable?", left:"Look capable", right:"Help me grow" },
+        { text:"Do I avoid opportunities because I might fail publicly?", left:"I avoid them", right:"I take them anyway" },
+        { text:"When I enter a new field, do I feel curious or threatened?", left:"Threatened", right:"Curious" },
+        // FAILURE
+        { text:"When I fail, what's the honest thought — “this method failed” or “I am a failure”?", left:"I am a failure", right:"This method failed" },
+        { text:"After a setback, do I analyse what went wrong, or shut down emotionally?", left:"Shut down", right:"Analyse it" },
+        { text:"Do I recover from failure with action, or with excuses?", left:"Excuses", right:"Action" },
+        { text:"Does failure make me want to improve, or disappear?", left:"Disappear", right:"Improve" },
+        // EFFORT
+        { text:"Do I believe effort is the path to mastery, or proof I'm not naturally good enough?", left:"Proof I'm not good enough", right:"Path to mastery" },
+        { text:"When progress is slow, do I become more patient, or more ashamed?", left:"Ashamed", right:"Patient" },
+        { text:"Do I secretly admire natural talent more than disciplined hard work?", left:"Admire talent", right:"Admire discipline" },
+        { text:"When something takes repeated effort, do I stay with it or quit quickly?", left:"Quit quickly", right:"Stay with it" },
+        // FEEDBACK
+        { text:"When someone corrects me, do I feel helped or attacked?", left:"Attacked", right:"Helped" },
+        { text:"Do I listen to feedback to improve, or mostly to defend myself?", left:"Defend myself", right:"Improve" },
+        { text:"Do I ask for feedback proactively?", left:"Rarely", right:"Often" },
+        { text:"Is there an area of life where I avoid feedback because I fear what I'll hear?", left:"Yes, I avoid it", right:"No, I'll hear it" },
+        // COMPARISON
+        { text:"When I see someone doing better than me, do I feel inspired or insecure?", left:"Insecure", right:"Inspired" },
+        { text:"Do I learn from people who are better than me, or silently resent them?", left:"Resent them", right:"Learn from them" },
+        { text:"Do I compare my beginning to someone else's peak?", left:"Often", right:"Rarely" },
+        { text:"Can I genuinely appreciate someone's success without feeling smaller?", left:"Hard for me", right:"Comes naturally" },
+        // IDENTITY
+        { text:"Do I use labels like “I'm just not that type of person”?", left:"Often", right:"Rarely" },
+        { text:"Have I permanently decided I'm bad at something without giving it real practice?", left:"Yes, more than one thing", right:"No, I keep trying" },
+        { text:"Do I think intelligence, communication, or creativity are mostly fixed traits?", left:"Mostly fixed", right:"Can be developed" },
+        { text:"In hard moments, do I protect my image more than my improvement?", left:"Protect my image", right:"Protect my growth" },
+        // LEARNING
+        { text:"Do I want to prove that I'm smart, or actually become better?", left:"Prove I'm smart", right:"Actually improve" },
+        { text:"Do I enjoy learning as a beginner, or only when I already look good?", left:"Only when I look good", right:"Enjoy being a beginner" },
+        { text:"Can I tolerate being bad at something long enough to become good at it?", left:"Hard to tolerate", right:"I can sit with it" },
+        { text:"Do I see struggle as part of growth, or as a sign to stop?", left:"A sign to stop", right:"Part of growth" },
+        // CONSISTENCY
+        { text:"When I say I want change, do my habits actually reflect it?", left:"Not really", right:"Mostly, yes" },
+        { text:"Do I repeat the same patterns and just call it “my nature”?", left:"Often", right:"Rarely" },
+        { text:"Have I made concrete efforts to improve weak areas in my life?", left:"Not much", right:"Yes, real efforts" },
+        { text:"Do I believe people can truly change with awareness and practice?", left:"Not really", right:"Yes, with practice" },
+      ],
+      catNotes: {
+        challenges: {
+          low:"Hard things tend to get a no before you've really looked at them.",
+          mid:"Difficulty makes you hesitate, but it doesn't always win.",
+          high:"Difficulty usually reads as a signal that something's worth doing."
+        },
+        failure: {
+          low:"Failure tends to land on your identity, not just your method.",
+          mid:"A setback stings, but you can usually separate it from your worth.",
+          high:"Failure teaches you — it's data, not a verdict."
+        },
+        effort: {
+          low:"If it takes this much effort, some part of you suspects you're not built for it.",
+          mid:"You'll put in the work, though slow progress still tests your patience.",
+          high:"Effort is normal — it's just what mastery looks like from the inside."
+        },
+        feedback: {
+          low:"Correction tends to feel like an attack before it feels like help.",
+          mid:"You can take feedback, it just takes a moment to drop the defensiveness.",
+          high:"Feedback helps you — you'd rather know than be comfortable."
+        },
+        comparison: {
+          low:"Someone else's progress tends to feel like a threat to where you stand.",
+          mid:"There's a flicker of insecurity, but it usually turns into motivation.",
+          high:"Other people's progress reads as information, not a threat."
+        },
+        identity: {
+          low:"Struggle in an area quietly gets translated into “I'm just not that person.”",
+          mid:"You label yourself sometimes, but you're catching it more often now.",
+          high:"“Not good at it yet” is a timeline for you, not an identity."
+        },
+        learning: {
+          low:"Looking competent matters more than the awkward beginner phase.",
+          mid:"You can tolerate being a beginner, as long as it doesn't last too long.",
+          high:"Being bad at something new doesn't bother you — it's just the price of entry."
+        },
+        consistency: {
+          low:"Patterns get filed under “my nature” instead of being worked on.",
+          mid:"You've made some real changes, even if habits don't always keep pace with intentions.",
+          high:"You've made concrete changes, because you actually believe people can change."
+        }
+      },
+      overallBands: [
+        { title:"Strongly fixed-leaning", blurb:"Right now, most of these situations get filtered through one question: does this make me look capable? That's exhausting to maintain, and it's also genuinely learnable to loosen." },
+        { title:"Leaning fixed, with some openings", blurb:"There's a real pull toward protecting how you look over how you grow — but it's not absolute. A few areas already show you can do this differently." },
+        { title:"A mixed, situational mindset", blurb:"You're not one thing. Some areas of your life already run on “not good at it yet,” others still run on “I'm just not that type of person.” The breakdown below shows where each one sits." },
+        { title:"Leaning growth, with a few sore spots", blurb:"Most of this comes naturally to you now — effort, feedback, failure don't feel like identity threats. A couple of areas are still catching up." },
+        { title:"Strongly growth-leaning", blurb:"Difficulty, feedback, and other people's success mostly register as useful information rather than threats. The work now is keeping it that way under real pressure, not just in theory." },
+      ],
     },
-    failure: {
-      low:"Failure tends to land on your identity, not just your method.",
-      mid:"A setback stings, but you can usually separate it from your worth.",
-      high:"Failure teaches you — it's data, not a verdict."
-    },
-    effort: {
-      low:"If it takes this much effort, some part of you suspects you're not built for it.",
-      mid:"You'll put in the work, though slow progress still tests your patience.",
-      high:"Effort is normal — it's just what mastery looks like from the inside."
-    },
-    feedback: {
-      low:"Correction tends to feel like an attack before it feels like help.",
-      mid:"You can take feedback, it just takes a moment to drop the defensiveness.",
-      high:"Feedback helps you — you'd rather know than be comfortable."
-    },
-    comparison: {
-      low:"Someone else's progress tends to feel like a threat to where you stand.",
-      mid:"There's a flicker of insecurity, but it usually turns into motivation.",
-      high:"Other people's progress reads as information, not a threat."
-    },
-    identity: {
-      low:"Struggle in an area quietly gets translated into \u201cI'm just not that person.\u201d",
-      mid:"You label yourself sometimes, but you're catching it more often now.",
-      high:"\u201cNot good at it yet\u201d is a timeline for you, not an identity."
-    },
-    learning: {
-      low:"Looking competent matters more than the awkward beginner phase.",
-      mid:"You can tolerate being a beginner, as long as it doesn't last too long.",
-      high:"Being bad at something new doesn't bother you — it's just the price of entry."
-    },
-    consistency: {
-      low:"Patterns get filed under \u201cmy nature\u201d instead of being worked on.",
-      mid:"You've made some real changes, even if habits don't always keep pace with intentions.",
-      high:"You've made concrete changes, because you actually believe people can change."
+
+    ta: {
+      title: "நிலையானதா வளர்ச்சியா? — ஒரு சுய பரிசோதனை",
+      eyebrow: "ஒரு சுய பரிசோதனை · 32 கேள்விகள் · வாழ்வின் 8 பகுதிகள்",
+      hl: { fixed:"நிலையான மனநிலை", or:"அல்லது", growth:"வளர்ச்சி மனநிலையா?" },
+      lede: "கரோல் ட்வெக்கின் ஆராய்ச்சி, மக்கள் கடினத்தை, தோல்வியை, முயற்சியை, கருத்தை மற்றும் மற்றவர்களின் வெற்றியை இரண்டு வழிகளில் ஒன்றில் அணுகுகிறார்கள் என்று கண்டறிந்தது — எதிர்த்துப் பாதுகாக்க வேண்டிய அச்சுறுத்தல்களாக, அல்லது செயல்படுத்தத் தகுந்த மூலப்பொருளாக. நம்மில் பெரும்பாலோர் ஒரு கலவையே, அந்தக் கலவை வாழ்வின் பகுதிக்குப் பகுதி மாறுகிறது. நீங்கள் விரும்பும் பதிலை அல்ல, நேர்மையாகப் பதிலளியுங்கள், உண்மையில் நீங்கள் எங்கே நிற்கிறீர்கள் என்று பாருங்கள்.",
+      meta: ["<b>32</b> கேள்விகள்", "<b>8</b> பகுதிகள்", "<b>~5</b> நிமிடம்", "தரவு எதுவும் சேமிக்கப்படவில்லை, அனுப்பப்படவில்லை"],
+      start: "சுய பரிசோதனையைத் தொடங்கு →",
+      catlist: ["சவால்கள்","தோல்வி","முயற்சி","கருத்து","மற்றவர்களுடன் ஒப்பீடு","அடையாளம்","கற்றல்","நிலைத்தன்மை"],
+      back: "← பின்",
+      progress: "கேள்வி {c} / {t}",
+      scaleMid: "நீங்கள் உண்மையில் எப்படி நடந்துகொள்கிறீர்களோ, அதற்கு நெருக்கமான வட்டத்தைத் தட்டுங்கள்",
+      resultEyebrow: "உங்கள் முடிவு",
+      pctSuffix: "% வளர்ச்சி சார்பு",
+      legendGrowth: "வளர்ச்சி சார்ந்த பகுதி",
+      legendFixed: "நிலையான மனநிலை சார்ந்த பகுதி",
+      legendNote: "ஒவ்வொரு கம்பியும் 8 பகுதிகளில் ஒன்று. இந்த வடிவம் உங்கள் முறை, ஒரு தீர்ப்பு அல்ல.",
+      breakdown: "பகுதி வாரியான விவரம்",
+      closing: "மனநிலை “நிலையான” வகையாக இருந்தாலும்கூட அது நிரந்தரமானது அல்ல — அதுதான் இதன் முழு அடிப்படை. <strong>மேலே குறைந்த மதிப்பெண் பெற்ற பகுதிகள் குறைபாடுகள் அல்ல; அவை நீங்கள் இன்னும் பழைய கதையை உங்களுக்குச் சொல்லிக்கொண்டிருக்கும் இடங்கள்.</strong> எந்தக் குரல் பேசுகிறது என்பதைக் கவனிப்பதே — “இது தோல்வியடைந்தது” எதிராக “நான் தோல்வியடைந்தேன்” — பொதுவாக முதலில் மாறத் தொடங்கும் விஷயம் என்று ட்வெக்கின் ஆராய்ச்சி கூறுகிறது.",
+      retake: "மீண்டும் சுய பரிசோதனை செய்",
+      toggle: "English",
+      categories: [
+        { label:"சவால்கள்",     eyebrow:"சவால்களைப் பற்றி" },
+        { label:"தோல்வி",       eyebrow:"தோல்வியைப் பற்றி" },
+        { label:"முயற்சி",      eyebrow:"முயற்சியைப் பற்றி" },
+        { label:"கருத்து",      eyebrow:"கருத்துகளைப் பற்றி" },
+        { label:"ஒப்பீடு",      eyebrow:"மற்றவர்களுடன் ஒப்பிடுவது பற்றி" },
+        { label:"அடையாளம்",     eyebrow:"அடையாளத்தைப் பற்றி" },
+        { label:"கற்றல்",       eyebrow:"கற்றலைப் பற்றி" },
+        { label:"நிலைத்தன்மை",  eyebrow:"நிலைத்தன்மையைப் பற்றி" },
+      ],
+      questions: [
+        // CHALLENGES
+        { text:"ஏதாவது கடினமாகத் தோன்றும்போது, எனது முதல் எதிர்வினை என்ன?", left:"தவிர்ப்பு", right:"உற்சாகம்" },
+        { text:"நான் வளர உதவும் பணிகளைத் தேர்ந்தெடுக்கிறேனா, அல்லது திறமையானவனாகத் தெரிய உதவும் பணிகளையா?", left:"திறமையாகத் தெரிய", right:"வளர உதவ" },
+        { text:"பகிரங்கமாகத் தோல்வியடைவேனோ என்பதால் வாய்ப்புகளைத் தவிர்க்கிறேனா?", left:"தவிர்க்கிறேன்", right:"பரவாயில்லை, ஏற்கிறேன்" },
+        { text:"புதிய துறையில் நுழையும்போது, ஆர்வமாக உணர்கிறேனா அல்லது அச்சுறுத்தலாக உணர்கிறேனா?", left:"அச்சுறுத்தலாக", right:"ஆர்வமாக" },
+        // FAILURE
+        { text:"நான் தோல்வியடையும்போது, நேர்மையான எண்ணம் என்ன — “இந்த முறை தோல்வியடைந்தது” அல்லது “நானே ஒரு தோல்வி”?", left:"நானே ஒரு தோல்வி", right:"இந்த முறை தோல்வியடைந்தது" },
+        { text:"பின்னடைவுக்குப் பிறகு, என்ன தவறு நடந்தது என்று ஆராய்கிறேனா, அல்லது மனரீதியாக முடங்கிப் போகிறேனா?", left:"முடங்கிப் போகிறேன்", right:"ஆராய்கிறேன்" },
+        { text:"தோல்வியிலிருந்து செயலின் மூலம் மீள்கிறேனா, அல்லது சாக்குப்போக்குகளால் மீள்கிறேனா?", left:"சாக்குப்போக்குகள்", right:"செயல்" },
+        { text:"தோல்வி என்னை மேம்படுத்திக்கொள்ள வைக்கிறதா, அல்லது மறைந்துபோக வைக்கிறதா?", left:"மறைந்துபோக", right:"மேம்பட" },
+        // EFFORT
+        { text:"முயற்சி என்பது தேர்ச்சிக்கான பாதை என்று நம்புகிறேனா, அல்லது நான் இயல்பாகவே போதுமானவன் இல்லை என்பதற்கான சான்று என்று நம்புகிறேனா?", left:"போதுமானவன் இல்லை என்பதற்கு சான்று", right:"தேர்ச்சிக்கான பாதை" },
+        { text:"முன்னேற்றம் மெதுவாக இருக்கும்போது, அதிக பொறுமை அடைகிறேனா, அல்லது அதிக வெட்கப்படுகிறேனா?", left:"வெட்கம்", right:"பொறுமை" },
+        { text:"ஒழுக்கமான கடின உழைப்பைவிட இயற்கையான திறமையை இரகசியமாக அதிகம் ரசிக்கிறேனா?", left:"திறமையை ரசிக்கிறேன்", right:"ஒழுக்கத்தை ரசிக்கிறேன்" },
+        { text:"ஏதாவது மீண்டும் மீண்டும் முயற்சி எடுக்க வேண்டியிருக்கும்போது, அதனுடன் தொடர்கிறேனா அல்லது விரைவில் விட்டுவிடுகிறேனா?", left:"விரைவில் விட்டுவிடுகிறேன்", right:"தொடர்கிறேன்" },
+        // FEEDBACK
+        { text:"யாராவது என்னைத் திருத்தும்போது, உதவி கிடைத்ததாக உணர்கிறேனா அல்லது தாக்கப்பட்டதாக உணர்கிறேனா?", left:"தாக்கப்பட்டதாக", right:"உதவியாக" },
+        { text:"மேம்படுவதற்காகக் கருத்துகளைக் கேட்கிறேனா, அல்லது பெரும்பாலும் என்னைப் பாதுகாத்துக்கொள்ளவா?", left:"என்னைப் பாதுகாக்க", right:"மேம்பட" },
+        { text:"நானாகவே முன்வந்து கருத்துகளைக் கேட்கிறேனா?", left:"அரிதாக", right:"அடிக்கடி" },
+        { text:"நான் கேட்கப்போவதைப் பற்றிய பயத்தால் கருத்துகளைத் தவிர்க்கும் ஒரு வாழ்க்கைப் பகுதி உள்ளதா?", left:"ஆம், தவிர்க்கிறேன்", right:"இல்லை, கேட்பேன்" },
+        // COMPARISON
+        { text:"என்னைவிடச் சிறப்பாகச் செயல்படும் ஒருவரைப் பார்க்கும்போது, ஊக்கமாக உணர்கிறேனா அல்லது பாதுகாப்பற்றதாக உணர்கிறேனா?", left:"பாதுகாப்பற்றதாக", right:"ஊக்கமாக" },
+        { text:"என்னைவிடச் சிறந்தவர்களிடமிருந்து கற்றுக்கொள்கிறேனா, அல்லது அமைதியாக அவர்கள் மீது வெறுப்புக்கொள்கிறேனா?", left:"வெறுப்புக்கொள்கிறேன்", right:"கற்றுக்கொள்கிறேன்" },
+        { text:"எனது தொடக்கத்தை மற்றொருவரின் உச்சத்துடன் ஒப்பிடுகிறேனா?", left:"அடிக்கடி", right:"அரிதாக" },
+        { text:"நான் சிறியவனாக உணராமல், ஒருவரின் வெற்றியை உண்மையாகப் பாராட்ட முடியுமா?", left:"எனக்குக் கடினம்", right:"இயல்பாக வருகிறது" },
+        // IDENTITY
+        { text:"“நான் அப்படிப்பட்ட ஆள் இல்லை” போன்ற முத்திரைகளைப் பயன்படுத்துகிறேனா?", left:"அடிக்கடி", right:"அரிதாக" },
+        { text:"உண்மையான பயிற்சியே கொடுக்காமல், ஒரு விஷயத்தில் நான் மோசமானவன் என்று நிரந்தரமாக முடிவு செய்துவிட்டேனா?", left:"ஆம், ஒன்றுக்கு மேற்பட்டவை", right:"இல்லை, தொடர்ந்து முயல்கிறேன்" },
+        { text:"அறிவு, தொடர்பாடல் அல்லது படைப்பாற்றல் பெரும்பாலும் மாறாத பண்புகள் என்று நினைக்கிறேனா?", left:"பெரும்பாலும் மாறாதவை", right:"வளர்த்துக்கொள்ளலாம்" },
+        { text:"கடினமான தருணங்களில், எனது முன்னேற்றத்தைவிட எனது பிம்பத்தை அதிகம் பாதுகாக்கிறேனா?", left:"எனது பிம்பத்தைப் பாதுகாக்க", right:"எனது வளர்ச்சியைப் பாதுகாக்க" },
+        // LEARNING
+        { text:"நான் புத்திசாலி என்று நிரூபிக்க விரும்புகிறேனா, அல்லது உண்மையில் சிறந்தவனாக மாற விரும்புகிறேனா?", left:"புத்திசாலி என்று நிரூபிக்க", right:"உண்மையில் மேம்பட" },
+        { text:"ஒரு தொடக்கநிலையாளனாகக் கற்பதை ரசிக்கிறேனா, அல்லது நான் ஏற்கனவே சிறப்பாகத் தெரியும்போது மட்டுமா?", left:"சிறப்பாகத் தெரியும்போது மட்டும்", right:"தொடக்கநிலையாக இருப்பதை ரசிக்கிறேன்" },
+        { text:"ஒரு விஷயத்தில் சிறந்தவனாகும் அளவுக்கு, அதில் மோசமாக இருப்பதைப் பொறுத்துக்கொள்ள முடியுமா?", left:"பொறுத்துக்கொள்வது கடினம்", right:"என்னால் அதனுடன் இருக்க முடியும்" },
+        { text:"போராட்டத்தை வளர்ச்சியின் ஒரு பகுதியாகப் பார்க்கிறேனா, அல்லது நிறுத்துவதற்கான அறிகுறியாகப் பார்க்கிறேனா?", left:"நிறுத்துவதற்கான அறிகுறி", right:"வளர்ச்சியின் பகுதி" },
+        // CONSISTENCY
+        { text:"மாற்றம் வேண்டும் என்று நான் சொல்லும்போது, எனது பழக்கங்கள் உண்மையில் அதைப் பிரதிபலிக்கின்றனவா?", left:"இல்லை, அப்படியில்லை", right:"பெரும்பாலும், ஆம்" },
+        { text:"அதே முறைகளை மீண்டும் மீண்டும் செய்துவிட்டு அதை “என் இயல்பு” என்று சொல்லிவிடுகிறேனா?", left:"அடிக்கடி", right:"அரிதாக" },
+        { text:"என் வாழ்க்கையில் பலவீனமான பகுதிகளை மேம்படுத்த உறுதியான முயற்சிகளை எடுத்திருக்கிறேனா?", left:"அதிகம் இல்லை", right:"ஆம், உண்மையான முயற்சிகள்" },
+        { text:"விழிப்புணர்வு மற்றும் பயிற்சியுடன் மக்கள் உண்மையாக மாற முடியும் என்று நம்புகிறேனா?", left:"இல்லை, அப்படியில்லை", right:"ஆம், பயிற்சியுடன்" },
+      ],
+      catNotes: {
+        challenges: {
+          low:"கடினமான விஷயங்களைச் சரியாகப் பார்ப்பதற்கு முன்பே அவற்றுக்கு 'வேண்டாம்' என்று சொல்லிவிடுகிறீர்கள்.",
+          mid:"கடினம் உங்களைத் தயங்க வைக்கிறது, ஆனால் அது எப்போதும் வெல்வதில்லை.",
+          high:"கடினம் என்பது ஏதாவது செய்யத் தகுந்தது என்பதற்கான அறிகுறியாகவே பெரும்பாலும் தெரிகிறது."
+        },
+        failure: {
+          low:"தோல்வி உங்கள் முறையை மட்டுமல்ல, உங்கள் அடையாளத்தையே தாக்குகிறது.",
+          mid:"பின்னடைவு வலிக்கிறது, ஆனால் அதை உங்கள் மதிப்பிலிருந்து பிரித்துப் பார்க்க முடிகிறது.",
+          high:"தோல்வி உங்களுக்குக் கற்பிக்கிறது — அது ஒரு தீர்ப்பு அல்ல, தகவல்."
+        },
+        effort: {
+          low:"இவ்வளவு முயற்சி தேவைப்பட்டால், இது உங்களுக்கானது இல்லை என்று உங்களுக்குள் ஒரு பகுதி சந்தேகிக்கிறது.",
+          mid:"நீங்கள் உழைப்பீர்கள், இருந்தாலும் மெதுவான முன்னேற்றம் உங்கள் பொறுமையைச் சோதிக்கிறது.",
+          high:"முயற்சி இயல்பானது — உள்ளிருந்து பார்க்கும்போது தேர்ச்சி இப்படித்தான் இருக்கும்."
+        },
+        feedback: {
+          low:"திருத்தம் உதவியாகத் தோன்றுவதற்கு முன்பு தாக்குதலாகவே உணரப்படுகிறது.",
+          mid:"நீங்கள் கருத்துகளை ஏற்கிறீர்கள், தற்காப்பு மனநிலையை விடுவதற்குச் சிறிது நேரம் ஆகிறது.",
+          high:"கருத்துகள் உங்களுக்கு உதவுகின்றன — சவுகரியமாக இருப்பதைவிட உண்மையை அறிய விரும்புகிறீர்கள்."
+        },
+        comparison: {
+          low:"மற்றொருவரின் முன்னேற்றம் உங்கள் நிலைக்கு ஓர் அச்சுறுத்தலாக உணரப்படுகிறது.",
+          mid:"சிறிது பாதுகாப்பின்மை தோன்றுகிறது, ஆனால் அது பெரும்பாலும் ஊக்கமாக மாறுகிறது.",
+          high:"மற்றவர்களின் முன்னேற்றம் அச்சுறுத்தலாக அல்ல, தகவலாகத் தெரிகிறது."
+        },
+        identity: {
+          low:"ஒரு பகுதியில் ஏற்படும் போராட்டம் அமைதியாக “நான் அப்படிப்பட்ட ஆள் இல்லை” என்று மாற்றப்படுகிறது.",
+          mid:"சில சமயம் உங்களுக்கு முத்திரை குத்திக்கொள்கிறீர்கள், ஆனால் இப்போது அதை அடிக்கடி கவனிக்கிறீர்கள்.",
+          high:"“இன்னும் தேர்ச்சி பெறவில்லை” என்பது உங்களுக்கு ஒரு கால அவகாசம், அடையாளம் அல்ல."
+        },
+        learning: {
+          low:"சங்கடமான தொடக்கநிலையைவிட, திறமையாகத் தெரிவதே முக்கியமாக இருக்கிறது.",
+          mid:"தொடக்கநிலையாக இருப்பதைப் பொறுத்துக்கொள்கிறீர்கள், அது அதிக நாள் நீடிக்காத வரை.",
+          high:"புதிதாக ஒன்றில் மோசமாக இருப்பது உங்களைத் தொந்தரவு செய்வதில்லை — அது நுழைவுக் கட்டணம் மட்டுமே."
+        },
+        consistency: {
+          low:"முறைகளை மாற்ற முயற்சிக்காமல் “என் இயல்பு” என்ற பெயரில் ஒதுக்கிவிடுகிறீர்கள்.",
+          mid:"நீங்கள் சில உண்மையான மாற்றங்களைச் செய்திருக்கிறீர்கள், பழக்கங்கள் எப்போதும் எண்ணங்களுடன் ஒத்துப்போகாவிட்டாலும்.",
+          high:"மக்கள் மாற முடியும் என்று நீங்கள் உண்மையாக நம்புவதால், உறுதியான மாற்றங்களைச் செய்திருக்கிறீர்கள்."
+        }
+      },
+      overallBands: [
+        { title:"வலுவாக நிலையான மனநிலை சார்பு", blurb:"தற்போது, இந்தச் சூழ்நிலைகளில் பெரும்பாலானவை ஒரே ஒரு கேள்வியின் மூலம் வடிகட்டப்படுகின்றன: இது என்னைத் திறமையானவனாகக் காட்டுமா? அதைத் தொடர்ந்து பேணுவது சோர்வளிக்கிறது, ஆனால் அதைத் தளர்த்துவதையும் உண்மையாகவே கற்றுக்கொள்ள முடியும்." },
+        { title:"நிலையான மனநிலை சார்பு, சில திறப்புகளுடன்", blurb:"நீங்கள் எப்படி வளர்கிறீர்கள் என்பதைவிட எப்படித் தெரிகிறீர்கள் என்பதைப் பாதுகாக்கும் பக்கம் உண்மையான இழுப்பு உள்ளது — ஆனால் அது முழுமையானது அல்ல. சில பகுதிகள் இதை வேறுவிதமாகச் செய்ய முடியும் என்று ஏற்கனவே காட்டுகின்றன." },
+        { title:"கலவையான, சூழ்நிலை சார்ந்த மனநிலை", blurb:"நீங்கள் ஒரே மாதிரியானவர் அல்ல. உங்கள் வாழ்க்கையின் சில பகுதிகள் ஏற்கனவே “இன்னும் தேர்ச்சி பெறவில்லை” என்பதன் அடிப்படையில் இயங்குகின்றன, மற்றவை இன்னும் “நான் அப்படிப்பட்ட ஆள் இல்லை” என்பதன் அடிப்படையில் இயங்குகின்றன. ஒவ்வொன்றும் எங்கே இருக்கிறது என்பதைக் கீழே உள்ள விவரம் காட்டுகிறது." },
+        { title:"வளர்ச்சி மனநிலை சார்பு, சில பலவீனப் பகுதிகளுடன்", blurb:"இப்போது இவற்றில் பெரும்பாலானவை உங்களுக்கு இயல்பாக வருகின்றன — முயற்சி, கருத்து, தோல்வி ஆகியவை அடையாள அச்சுறுத்தல்களாக உணரப்படுவதில்லை. ஒன்றிரண்டு பகுதிகள் இன்னும் பின்தங்கியுள்ளன." },
+        { title:"வலுவாக வளர்ச்சி மனநிலை சார்பு", blurb:"கடினம், கருத்து, மற்றவர்களின் வெற்றி ஆகியவை அச்சுறுத்தல்களாக அல்லாமல், பெரும்பாலும் பயனுள்ள தகவலாகவே பதிவாகின்றன. இப்போதைய பணி, கோட்பாட்டில் மட்டுமல்லாமல், உண்மையான அழுத்தத்தின் கீழும் அதை அப்படியே பேணுவதுதான்." },
+      ],
     }
   };
 
-  const overallBands = [
-    {max:24, title:'Strongly fixed-leaning', blurb:"Right now, most of these situations get filtered through one question: does this make me look capable? That's exhausting to maintain, and it's also genuinely learnable to loosen."},
-    {max:44, title:'Leaning fixed, with some openings', blurb:"There's a real pull toward protecting how you look over how you grow — but it's not absolute. A few areas already show you can do this differently."},
-    {max:64, title:'A mixed, situational mindset', blurb:"You're not one thing. Some areas of your life already run on \u201cnot good at it yet,\u201d others still run on \u201cI'm just not that type of person.\u201d The breakdown below shows where each one sits."},
-    {max:84, title:'Leaning growth, with a few sore spots', blurb:"Most of this comes naturally to you now — effort, feedback, failure don't feel like identity threats. A couple of areas are still catching up."},
-    {max:101, title:'Strongly growth-leaning', blurb:"Difficulty, feedback, and other people's success mostly register as useful information rather than threats. The work now is keeping it that way under real pressure, not just in theory."},
-  ];
-
-  function bandFor(score){ return overallBands.find(b=>score<=b.max); }
-  function noteFor(score){
-    if(score<40) return 'low';
-    if(score<70) return 'mid';
-    return 'high';
-  }
-
   // ---------------- STATE ----------------
+  let lang = 'en';
+  let L = I18N[lang];
   let current = 0;
-  const answers = new Array(questions.length).fill(null);
+  const answers = new Array(QCATS.length).fill(null);
 
   const screens = {
     intro: document.getElementById('screen-intro'),
@@ -608,24 +762,74 @@ button{font-family:inherit;}
     window.scrollTo({top:0, behavior:'smooth'});
   }
 
-  const qCatEl = document.getElementById('q-cat');
-  const qTextEl = document.getElementById('q-text');
-  const dotsEl = document.getElementById('scale-dots');
-  const labelLeftEl = document.getElementById('label-left');
-  const labelRightEl = document.getElementById('label-right');
-  const progressText = document.getElementById('progress-text');
-  const progressFill = document.getElementById('progress-fill');
-  const backBtn = document.getElementById('back-btn');
+  const $ = id => document.getElementById(id);
+  const qCatEl = $('q-cat');
+  const qTextEl = $('q-text');
+  const dotsEl = $('scale-dots');
+  const labelLeftEl = $('label-left');
+  const labelRightEl = $('label-right');
+  const progressText = $('progress-text');
+  const progressFill = $('progress-fill');
+  const backBtn = $('back-btn');
+
+  function bandIndexFor(score){
+    const i = BAND_MAX.findIndex(m=>score<=m);
+    return i === -1 ? BAND_MAX.length-1 : i;
+  }
+  function noteFor(score){
+    if(score<40) return 'low';
+    if(score<70) return 'mid';
+    return 'high';
+  }
+
+  // ---------------- LANGUAGE ----------------
+  function applyLang(){
+    L = I18N[lang];
+    document.documentElement.lang = lang;
+    document.title = L.title;
+
+    $('intro-eyebrow').textContent = L.eyebrow;
+    $('hl-fixed').textContent = L.hl.fixed;
+    $('hl-or').textContent = L.hl.or;
+    $('hl-growth').textContent = L.hl.growth;
+    $('intro-lede').textContent = L.lede;
+    $('meta-row').innerHTML = L.meta.map(m=>`<span>${m}</span>`).join('');
+    $('start-btn').textContent = L.start;
+    $('cat-list').innerHTML = L.catlist.map((c,i)=>
+      `<div><span class="n">${String(i+1).padStart(2,'0')}</span> ${c}</div>`).join('');
+
+    $('scale-mid').textContent = L.scaleMid;
+    $('result-eyebrow').textContent = L.resultEyebrow;
+    $('result-pct-suffix').textContent = L.pctSuffix;
+    $('legend-growth').textContent = L.legendGrowth;
+    $('legend-fixed').textContent = L.legendFixed;
+    $('legend-note').textContent = L.legendNote;
+    $('breakdown-h').textContent = L.breakdown;
+    $('closing').innerHTML = L.closing;
+    $('retake-btn').textContent = L.retake;
+    $('lang-toggle').textContent = L.toggle;
+
+    renderQuestion();
+    if(screens.result.classList.contains('active')) buildResults();
+  }
+
+  $('lang-toggle').addEventListener('click', ()=>{
+    lang = (lang === 'en') ? 'ta' : 'en';
+    applyLang();
+  });
 
   function renderQuestion(){
-    const q = questions[current];
-    const cat = categories.find(c=>c.key===q.cat);
-    qCatEl.textContent = cat.eyebrow;
+    const ci = CAT_KEYS.indexOf(QCATS[current]);
+    const q = L.questions[current];
+    qCatEl.textContent = L.categories[ci].eyebrow;
     qTextEl.textContent = q.text;
     labelLeftEl.textContent = q.left;
     labelRightEl.textContent = q.right;
-    progressText.textContent = `Question ${current+1} of ${questions.length}`;
-    progressFill.style.width = (current/questions.length*100) + '%';
+    progressText.textContent = L.progress
+      .replace('{c}', current+1)
+      .replace('{t}', QCATS.length);
+    progressFill.style.width = (current/QCATS.length*100) + '%';
+    backBtn.textContent = L.back;
     backBtn.disabled = current===0;
 
     dotsEl.innerHTML = '';
@@ -642,7 +846,7 @@ button{font-family:inherit;}
     answers[current] = value;
     renderQuestion();
     setTimeout(()=>{
-      if(current < questions.length-1){
+      if(current < QCATS.length-1){
         current++;
         renderQuestion();
       } else {
@@ -656,13 +860,13 @@ button{font-family:inherit;}
     if(current>0){ current--; renderQuestion(); }
   });
 
-  document.getElementById('start-btn').addEventListener('click', ()=>{
+  $('start-btn').addEventListener('click', ()=>{
     current = 0;
     renderQuestion();
     showScreen('quiz');
   });
 
-  document.getElementById('retake-btn').addEventListener('click', ()=>{
+  $('retake-btn').addEventListener('click', ()=>{
     current = 0;
     answers.fill(null);
     renderQuestion();
@@ -672,7 +876,7 @@ button{font-family:inherit;}
   // ---------------- RESULTS ----------------
   function scoreFor(catKey){
     const vals = [];
-    questions.forEach((q,i)=>{ if(q.cat===catKey) vals.push(answers[i]); });
+    QCATS.forEach((c,i)=>{ if(c===catKey) vals.push(answers[i]); });
     const sum = vals.reduce((a,b)=>a+(b||3),0);
     const avg = sum/vals.length; // 1..5
     return Math.round((avg-1)/4*100); // 0..100
@@ -688,7 +892,7 @@ button{font-family:inherit;}
   }
 
   function buildRing(scores){
-    const cx=160, cy=160, maxR=118, n=categories.length, step=360/n;
+    const cx=160, cy=160, maxR=118, n=CAT_KEYS.length, step=360/n;
     let svg = `<svg viewBox="0 0 320 340" xmlns="http://www.w3.org/2000/svg">`;
 
     // guide rings
@@ -732,7 +936,9 @@ button{font-family:inherit;}
       let baseline = 4;
       if(dy < -8) baseline = -2;
       else if(dy > 8) baseline = 11;
-      svg += `<text x="${lp.x.toFixed(1)}" y="${(lp.y+baseline).toFixed(1)}" text-anchor="${anchor}" font-family="IBM Plex Mono, monospace" font-size="10" letter-spacing="0.5" fill="var(--paper-dim)">${categories[i].label.toUpperCase()}</text>`;
+      const fontFam = lang === 'ta' ? 'Noto Sans Tamil, sans-serif' : 'IBM Plex Mono, monospace';
+      const label = lang === 'ta' ? L.categories[i].label : L.categories[i].label.toUpperCase();
+      svg += `<text x="${lp.x.toFixed(1)}" y="${(lp.y+baseline).toFixed(1)}" text-anchor="${anchor}" font-family="${fontFam}" font-size="10" letter-spacing="0.5" fill="var(--paper-dim)">${label}</text>`;
     }
 
     svg += `</svg>`;
@@ -740,25 +946,26 @@ button{font-family:inherit;}
   }
 
   function buildResults(){
-    const scores = categories.map(c=>scoreFor(c.key));
+    const scores = CAT_KEYS.map(k=>scoreFor(k));
     const overall = Math.round(scores.reduce((a,b)=>a+b,0)/scores.length);
-    const band = bandFor(overall);
+    const bi = bandIndexFor(overall);
+    const band = L.overallBands[bi];
 
-    document.getElementById('result-pct-num').textContent = overall;
-    document.getElementById('result-title').textContent = band.title;
-    document.getElementById('result-blurb').textContent = band.blurb;
-    document.getElementById('ring-wrap').innerHTML = buildRing(scores);
+    $('result-pct-num').textContent = overall;
+    $('result-title').textContent = band.title;
+    $('result-blurb').textContent = band.blurb;
+    $('ring-wrap').innerHTML = buildRing(scores);
 
-    const rowsEl = document.getElementById('cat-rows');
+    const rowsEl = $('cat-rows');
     rowsEl.innerHTML = '';
-    categories.forEach((c,i)=>{
+    CAT_KEYS.forEach((k,i)=>{
       const score = scores[i];
-      const note = catNotes[c.key][noteFor(score)];
+      const note = L.catNotes[k][noteFor(score)];
       const row = document.createElement('div');
       row.className = 'cat-row';
       row.innerHTML = `
         <div class="cat-row-top">
-          <span class="cat-row-name">${c.label}</span>
+          <span class="cat-row-name">${L.categories[i].label}</span>
           <span class="cat-row-score">${score}%</span>
         </div>
         <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${score}%; background:${colorFor(score)}"></div></div>
@@ -768,7 +975,8 @@ button{font-family:inherit;}
     });
   }
 
-  renderQuestion();
+  // ---------------- INIT ----------------
+  applyLang();
 
 })();
 </script>
